@@ -1,0 +1,3 @@
+Notes: Previous html ejs template
+Tasks:
+- need to create template builders in js
