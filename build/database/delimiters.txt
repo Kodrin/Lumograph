@@ -37,7 +37,7 @@
 FOLDER STRUCTURE 
 **********************************************
 
-//
+// Basic
 Result: 39-Ektar-100
     int >> string >> int 
         Naming Convention (
@@ -47,8 +47,8 @@ Result: 39-Ektar-100
         )
 //
 
-//
-Result: 39-ektar-100-35-japan-
+// Basic + Optional
+Result: 39-ektar-100-35-japan
     int >> string >> int >> int >> string 
         Naming Convention (
             Mandatory: Roll number,
