@@ -5,7 +5,7 @@ const Crawler = require('./build/crawler')
 const crawler = new Crawler("./archive/rolls/");
 // crawler.crawl();
 // const fs = require("fs");
-// for (let i = 0; i < 166; i++) {
+// for (let i = 0; i < 40; i++) {
 //     const directory = "./archive/rolls/";
 //     let index = i;
 //     let rollType = ["Ektar","Fuji","Washi-S"];
@@ -19,9 +19,12 @@ const crawler = new Crawler("./archive/rolls/");
 //         rollSize[Math.floor(Math.random() * rollSize.length)]
 //     ;
 
-//     fs.mkdirSync(
-//         directory + dirName
-//     );
+//     if(!fs.existsSync(directory + dirName))
+//     {
+//         fs.mkdirSync(
+//             directory + dirName
+//         );
+//     }
     
 // }
 
