@@ -13,5 +13,8 @@
     "node"
   ],
   "author": "Codrin-Mihail",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "node": "^12.13.0"
+  }
 }

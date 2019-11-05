@@ -1,0 +1,62 @@
+**********************************************
+パーサーのし方
+**********************************************
+
+第一　番号によって
+ーーーーーーーーーーーーーーー
+一　
+二
+三
+四
+五
+六
+七
+八
+九
+十
+
+第二　自然によって
+ーーーーーーーーーーーーーーー
+山
+川
+森
+雲
+田
+木
+土
+火
+水
+風
+
+第三　食べ物によって
+ーーーーーーーーーーーーーーー
+米
+麦
+
+**********************************************
+FOLDER STRUCTURE 
+**********************************************
+
+//
+Result: 39-Ektar-100
+    int >> string >> int 
+        Naming Convention (
+            Mandatory: Roll number,
+            Mandatory: Film Type,
+            Mandatory: ISO
+        )
+//
+
+//
+Result: 39-ektar-100-35-japan-
+    int >> string >> int >> int >> string 
+        Naming Convention (
+            Mandatory: Roll number,
+            Mandatory: Film Type,
+            Mandatory: ISO,
+            Mandatory: Size,
+            Optional: Location,
+            Optional: Lab
+        )
+//
+
