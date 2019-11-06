@@ -30,7 +30,7 @@ function Crawler(directory)
              *****
                 */
             const src = directory + files[file];
-            const delimiter = "%";
+            const delimiter = "_";
             let unfiltered = src.replace(directory, "");
             let filtered = unfiltered.split(delimiter);
             let entry = "";

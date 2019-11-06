@@ -13,9 +13,9 @@ const crawler = new Crawler("./archive/rolls/");
 //     let rollSize = [35,120,200];
 
 //     let dirName = 
-//         index + "%" +
-//         rollType[Math.floor(Math.random()*rollType.length)] + "%" +
-//         iso[Math.floor(Math.random() * iso.length)] + "%" +
+//         index + "_" +
+//         rollType[Math.floor(Math.random()*rollType.length)] + "_" +
+//         iso[Math.floor(Math.random() * iso.length)] + "_" +
 //         rollSize[Math.floor(Math.random() * rollSize.length)]
 //     ;
 
