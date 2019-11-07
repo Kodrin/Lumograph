@@ -9,75 +9,83 @@ function Crawler(directory)
 {
     const fs = require("fs");
     const path = require('path');
-
+    
     //directories
     const databasePath = "./build/database/";
-    const rollFile = "roll.txt";
+    const rollFile = "rolls.txt";
+    const expFile = "exposures.txt"
+    const columnLength = 30;
 
-    let files = fs.readdirSync(directory); //read the directory
-    let rollList = "";
-    let indexCounter = 0;
+    //delimiters
+    const folderDelimiter = "_";
+    
+    this.CrawlRolls = function ()
+    {
 
-    for (const file in files) {
-        if (fs.statSync(directory + files[file]).isDirectory()) 
+        const files = fs.readdirSync(directory); //read the directory
+        let rollList = "";
+
+        for (const file in files) 
         {
-            //THE NEW WAY (SPLITTING!!)
-            /*****
-             * [0] is the roll number
-             * [1] is the roll type
-             * [2] is the roll iso
-             * [3] is the roll size (35mm, 120mm)
-             *****
-                */
-            const src = directory + files[file];
-            const delimiter = "_";
-            let unfiltered = src.replace(directory, "");
-            let filtered = unfiltered.split(delimiter);
-            let entry = "";
+            if (fs.statSync(directory + files[file]).isDirectory()) 
+            {
+                //THE NEW WAY (SPLITTING!!)
+                /*****
+                 * [0] is the roll number
+                 * [1] is the roll type
+                 * [2] is the roll iso
+                 * [3] is the roll size (35mm, 120mm)
+                 *****
+                    */
+                const src = directory + files[file];
 
-            let rollNumber = filtered[0];
-            let rollType = filtered[1];
-            let rollIso = filtered[2];
-            let rollSize = filtered[3];
+                //splits
+                const unfiltered = src.replace(directory, "");
+                const filtered = unfiltered.split(folderDelimiter);
 
-            const x = 30;
-            
-            
-            let str = rollNumber + new Array(x - rollNumber.length + 1).join(' ') ;
-                str += rollType + new Array(x - rollType.length + 1).join(' ') ;
-                str += rollIso + new Array(x - rollIso.length + 1).join(' ') ;
-                str += rollSize + new Array(x - rollSize.length + 1).join(' ') ;
-                str += "\n";
-                console.log(str);
+                const rollNumber = filtered[0];
+                const rollType = filtered[1];
+                const rollIso = filtered[2];
+                const rollSize = filtered[3];                
                 
+                let str = rollNumber + new Array(columnLength - rollNumber.length + 1).join(' ') ;
+                    str += rollType + new Array(columnLength - rollType.length + 1).join(' ') ;
+                    str += rollIso + new Array(columnLength - rollIso.length + 1).join(' ') ;
+                    str += rollSize + new Array(columnLength - rollSize.length + 1).join(' ') ;
+                    str += "\n";
 
-                rollList += str;
-
-                // console.log("Roll Nbr. " + filtered[0] + " ");
-            // console.log(filtered);
+                    rollList += str;
+            }
         }
+
+        GenerateTable(databasePath + rollFile, TableHeader() + rollList);
+    }
+
+    function TableHeader()
+    {
+        const header = [
+            "NBR",
+            "TYPE",
+            "ISO",
+            "SIZE"
+        ]
+        let spacer = "+".repeat(columnLength*header.length);
+            spacer += "\n";
+        
+        let col = header[0] + new Array(columnLength - header[0].length + 1).join(' ');
+            col += header[1] + new Array(columnLength - header[1].length + 1).join(' ');
+            col += header[2] + new Array(columnLength - header[2].length + 1).join(' ');
+            col += header[3] + new Array(columnLength - header[3].length + 1).join(' ');
+            col += "\n";
+            col += spacer;
+        
+        return col;
     }
     
-    const x = 30;
-    let header = [
-        "NBR",
-        "TYPE",
-        "ISO",
-        "SIZE"
-    ]
-    let spacer = "+".repeat(x*header.length);
-        spacer += "\n";
-        
-    let col = header[0] + new Array(x - header[0].length + 1).join(' ');
-        col += header[1] + new Array(x - header[1].length + 1).join(' ');
-        col += header[2] + new Array(x - header[2].length + 1).join(' ');
-        col += header[3] + new Array(x - header[3].length + 1).join(' ');
-        col += "\n";
-        col += spacer;
-        
-    // rollList = rollList.toString();
-    
-    fs.writeFileSync(databasePath + rollFile, col + rollList);
+    function GenerateTable(path, table)
+    {
+        fs.writeFileSync(path, table);
+    }
     
 
 }

@@ -1,32 +1,21 @@
-console.time('Application time')
-console.log("This is the lumograph initialize")
+console.time('Application time');
+console.log("This is the lumograph initialize");
 
-const Crawler = require('./build/crawler')
+//namespacing
+const Crawler = require('./build/crawler');
+const Solver = require('./build/solver');
+
+//instancing
 const crawler = new Crawler("./archive/rolls/");
-// crawler.crawl();
-// const fs = require("fs");
-// for (let i = 0; i < 40; i++) {
-//     const directory = "./archive/rolls/";
-//     let index = i;
-//     let rollType = ["Ektar","Fuji","Washi-S"];
-//     let iso = [50,200,400,800,1600];
-//     let rollSize = [35,120,200];
-
-//     let dirName = 
-//         index + "_" +
-//         rollType[Math.floor(Math.random()*rollType.length)] + "_" +
-//         iso[Math.floor(Math.random() * iso.length)] + "_" +
-//         rollSize[Math.floor(Math.random() * rollSize.length)]
-//     ;
-
-//     if(!fs.existsSync(directory + dirName))
-//     {
-//         fs.mkdirSync(
-//             directory + dirName
-//         );
-//     }
-    
-// }
+const solver = new Solver();
 
 
-console.timeEnd('Application time')
+//main
+crawler.CrawlRolls();
+
+
+//debugger
+// solver.GenerateTestFolder(40);
+
+
+console.timeEnd('Application time');

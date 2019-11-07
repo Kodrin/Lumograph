@@ -1,3 +1,0 @@
-dirman file from miha-co
-Tasks:
-- create a non-dependant version 
