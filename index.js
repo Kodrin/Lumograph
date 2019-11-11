@@ -6,16 +6,16 @@ const Crawler = require('./build/crawler');
 const Solver = require('./build/solver');
 
 //instancing
-const crawler = new Crawler("./archive/rolls/");
+const crawler = new Crawler();
 const solver = new Solver();
 
 
 //main
-crawler.CrawlRolls();
+crawler.CrawlRolls("./archive/rolls/");
 
 
 //debugger
 // solver.GenerateTestFolder(40);
 
 
-console.timeEnd('Application time');
+console.timeEnd('Application time');    

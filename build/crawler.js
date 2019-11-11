@@ -5,7 +5,7 @@
  */
 
 
-function Crawler(directory)
+function Crawler()
 {
     const fs = require("fs");
     const path = require('path');
@@ -18,16 +18,17 @@ function Crawler(directory)
 
     //delimiters
     const folderDelimiter = "_";
-    
-    this.CrawlRolls = function ()
+
+    this.CrawlRolls = function (dir)
     {
 
-        const files = fs.readdirSync(directory); //read the directory
-        let rollList = "";
+        const files = fs.readdirSync(dir); //read the dir
+        let rollList = [];
+        let exposures = [];
 
         for (const file in files) 
         {
-            if (fs.statSync(directory + files[file]).isDirectory()) 
+            if (fs.statSync(dir + files[file]).isDirectory()) 
             {
                 //THE NEW WAY (SPLITTING!!)
                 /*****
@@ -37,10 +38,10 @@ function Crawler(directory)
                  * [3] is the roll size (35mm, 120mm)
                  *****
                     */
-                const src = directory + files[file];
+                const src = dir + files[file];
 
                 //splits
-                const unfiltered = src.replace(directory, "");
+                const unfiltered = src.replace(dir, "");
                 const filtered = unfiltered.split(folderDelimiter);
 
                 const rollNumber = filtered[0];
@@ -54,11 +55,56 @@ function Crawler(directory)
                     str += rollSize + new Array(columnLength - rollSize.length + 1).join(' ') ;
                     str += "\n";
 
-                    rollList += str;
+                const indexedRoll =
+                {
+                    index: rollNumber,
+                    formattedString : str
+                }
+
+                rollList.push(indexedRoll);
+
+                //recursion
+                this.CrawlRolls(src + "/");
+            }
+            else
+            {
+                if(files != null)
+                {
+                    const src =  dir + files[file];
+                    const unfiltered = src.replace(dir, "");
+                    const filtered = unfiltered.split(".");
+                    
+                    const expName = filtered[0];
+                    const expFormat = filtered[1];
+
+                    let str = expName + new Array(columnLength - expName.length + 1).join(' ') ;
+                        str += expFormat + new Array(columnLength - expFormat.length + 1).join(' ') ;
+                        str += "\n";
+                    
+                    const indexedExposure =
+                    {
+                        index : filtered[0],
+                        formattedString : str
+                        
+                    }
+                    
+                    exposures.push(indexedExposure);
+                    // console.log(indexedExposure.index);
+                }
+                
             }
         }
+        
+        //recursion cancels out txt file
+        if(files != null)
+        {
+            console.log(exposures.length);
 
-        GenerateTable(databasePath + rollFile, TableHeader() + rollList);
+            SortRolls(rollList);
+            SortExposures(exposures);
+            GenerateTable(databasePath + rollFile, TableHeader() + UnpackString(rollList));
+            GenerateTable(databasePath + expFile, TableHeader() + UnpackString(exposures));
+        }
     }
 
     function TableHeader()
@@ -80,6 +126,34 @@ function Crawler(directory)
             col += spacer;
         
         return col;
+    }
+
+
+    function SortRolls(rolls)
+    {
+        rolls.sort(function (a, b) 
+        {
+            return b.index - a.index;
+        });    
+        return rolls;        
+    }
+
+    function SortExposures(exp)
+    {
+        exp.sort(function (a, b) 
+        {
+            return b.index - a.index;
+        });    
+        return exp;        
+    }
+
+    function UnpackString(indexedData)
+    {
+        let temp = "";
+        for (let i = 0; i < indexedData.length; i++) {
+            temp += indexedData[i].formattedString;
+        }
+        return temp;
     }
     
     function GenerateTable(path, table)
